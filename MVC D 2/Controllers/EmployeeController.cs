@@ -54,7 +54,68 @@ namespace MVC_D_2.Controllers
 
         }
 
+        public IActionResult show()
+        {
+            List <Employee> employees = DB.Employees.ToList();
 
+
+            return View(employees);
+        }
+
+        public IActionResult UpdateDB(Employee employee)
+        {
+            Employee oldEmployee = DB.Employees.Where(e => e.SSN == employee.SSN).SingleOrDefault();
+            oldEmployee.Fname = employee.Fname;
+            oldEmployee.Lname = employee.Lname;
+            oldEmployee.Minit = employee.Minit;
+            oldEmployee.Address = employee.Address;
+            oldEmployee.Salary = employee.Salary;
+            oldEmployee.Sex = employee.Sex;
+            oldEmployee.SupervisorSSN = employee.SupervisorSSN;
+            oldEmployee.BirthDate = employee.BirthDate;
+
+            DB.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+
+            Employee Employee = DB.Employees.Where(e => e.SSN == id).SingleOrDefault();
+            DB.Employees.Remove(Employee);
+            DB.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult LoginDB(Employee employeeTologin)
+        {
+
+            Employee employee = DB.Employees.SingleOrDefault(e => e.SSN == employeeTologin.SSN && e.Fname == employeeTologin.Fname);
+
+            if (employee == null)
+                return View("Error");
+            else
+            {
+                HttpContext.Session.SetInt32("SSN", employee.SSN);
+                //Int32? SSNfromSession = HttpContext.Session.GetInt32("SSN");
+                return GetById(employee.SSN);
+            }
+
+        }
+
+        public IActionResult AllEmployeeManger()
+        {
+
+            List<Employee>? employees = DB.Departments.Include(e => e.employeeManege).Where(e => e.mngrSSN != null).Select(e => e.employeeManege).ToList();
+
+            return View(employees);
+
+        }
 
     }
 }

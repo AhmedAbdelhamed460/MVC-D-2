@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Day2TaskCompany.Models;
 
+using MVC_D_2.Models;
+using MVC_D_2.Controllers;
 
 namespace Day2TaskCompany.Controllers
 {

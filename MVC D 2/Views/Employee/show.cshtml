@@ -1,0 +1,21 @@
+﻿@model List<Employee>
+<h1>show employee</h1>
+<a asp-action="create" asp-controller="Employee" >create new employee</a>
+<table >
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>name</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.SSN</td>
+                <td>@item.Fname</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
